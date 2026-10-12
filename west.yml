@@ -1,0 +1,24 @@
+# West manifest: `west init -m <this repo url> <workspace dir>` pulls Zephyr and
+# the Edge Impulse Zephyr SDK next to this repo so both firmware apps can build.
+manifest:
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+    - name: edgeimpulse
+      url-base: https://github.com/edgeimpulse
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      repo-path: zephyr
+      revision: main
+      import: true
+
+    - name: edge-impulse-sdk-zephyr
+      remote: edgeimpulse
+      path: modules/edge-impulse-sdk-zephyr
+      revision: main
+      west-commands: west/west-commands.yml
+
+  self:
+    path: machine-learning-model-ota-on-arduino-uno-q

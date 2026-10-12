@@ -1,0 +1,14 @@
+source "Kconfig.zephyr"
+
+config EI_IKS02A1
+  bool "use EI_IKS02A1"
+  default n
+
+
+config EI_IKS01A3
+  bool "use EI_IKS01A3"
+  default n
+
+config EI_IKS4A1
+  bool "use EI_IKS4A1"
+  default n

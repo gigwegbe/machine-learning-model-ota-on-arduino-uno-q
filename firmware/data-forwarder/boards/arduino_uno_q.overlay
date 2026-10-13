@@ -1,0 +1,26 @@
+// /*
+//  * Route the Zephyr console to lpuart1 (PG5-PG8), which is the UART wired to the
+//  * UNO Q's Qualcomm/Linux side. The board default (usart1 on PB6/PB7) goes to the
+//  * header pins, where the Linux side and your Mac cannot read it.
+//  *
+//  * With this overlay, the STM32's printf() output appears on a /dev/tty* on the
+//  * board's Linux side (read it there, or point the Edge Impulse data forwarder at it).
+//  */
+// / {
+// 	chosen {
+// 		zephyr,console = &lpuart1;
+// 		zephyr,shell-uart = &lpuart1;
+// 	};
+// };
+
+// &lpuart1 {
+// 	status = "okay";
+// 	current-speed = <115200>;
+// };
+
+/ {
+    chosen {
+        zephyr,console = &lpuart1;
+        zephyr,shell-uart = &lpuart1;
+    };
+};

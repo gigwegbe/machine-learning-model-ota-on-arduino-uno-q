@@ -32,14 +32,15 @@ int main(void)
 	/* Find the LIS2DUXS12 that the x_nucleo_iks4a1 shield overlay put on the I2C bus. */
 	const struct device *accel = DEVICE_DT_GET_ONE(st_lis2duxs12);
 
-	if (!device_is_ready(accel)) {
+	if (!device_is_ready(accel))
+	{
 		/* This is the only non-data line we ever print, and only on failure. */
 		printf("ERROR: LIS2DUXS12 not ready. Check the shield is seated and J4/J5 are in Mode 1.\n");
 		return 0;
 	}
 
 	/* Configure the sensor: 200 Hz internal rate (>= 2x our 100 Hz read rate), +/-2 g range. */
-	struct sensor_value odr = { .val1 = 200, .val2 = 0 };
+	struct sensor_value odr = {.val1 = 200, .val2 = 0};
 	struct sensor_value fs;
 
 	sensor_attr_set(accel, SENSOR_CHAN_ACCEL_XYZ, SENSOR_ATTR_SAMPLING_FREQUENCY, &odr);
@@ -53,20 +54,22 @@ int main(void)
 	 * regardless of how long the I2C read takes. */
 	int64_t next_tick = k_uptime_get();
 
-	while (1) {
+	while (1)
+	{
 		next_tick += SAMPLE_PERIOD_MS;
 
 		struct sensor_value xyz[3];
 
-		if (sensor_sample_fetch(accel) == 0) {
+		if (sensor_sample_fetch(accel) == 0)
+		{
 			sensor_channel_get(accel, SENSOR_CHAN_ACCEL_XYZ, xyz);
 
 			/* Units are m/s^2 - the same units the inference firmware uses later,
 			 * so training data and live data match. */
 			printf("%.3f,%.3f,%.3f\n",
-			       sensor_value_to_double(&xyz[0]),
-			       sensor_value_to_double(&xyz[1]),
-			       sensor_value_to_double(&xyz[2]));
+				   sensor_value_to_double(&xyz[0]),
+				   sensor_value_to_double(&xyz[1]),
+				   sensor_value_to_double(&xyz[2]));
 		}
 
 		k_sleep(K_TIMEOUT_ABS_MS(next_tick));

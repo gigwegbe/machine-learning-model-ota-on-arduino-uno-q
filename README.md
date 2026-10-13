@@ -70,11 +70,20 @@ mkdir -p ~/unoq-ml && cd ~/unoq-ml
 python3 -m venv .venv && source .venv/bin/activate
 pip install west
 
-west init -m <URL-OF-THIS-REPO> .
+west init -m https://github.com/gigwegbe/machine-learning-model-ota-on-arduino-uno-q.git .
 west update                                    # downloads Zephyr + modules, takes a while
 west zephyr-export
 pip install -r zephyr/scripts/requirements.txt
 west sdk install --toolchains arm-zephyr-eabi
+```
+
+or
+
+```bash
+cd ~/zephyrproject
+git clone https://github.com/gigwegbe/machine-learning-model-ota-on-arduino-uno-q.git
+cd machine-learning-model-ota-on-arduino-uno-q/firmware/data-forwarder
+west build --pristine -b arduino_uno_q -- -DSHIELD=x_nucleo_iks4a1
 ```
 
 You now have `~/unoq-ml/unoq-edge-impulse-gestures/` (this repo) next to `zephyr/` and `modules/`.
@@ -92,6 +101,32 @@ Build and flash the data forwarder:
 scripts/build.sh forwarder
 scripts/bridge.sh          # Terminal 1 - leave running, wait for "Listening on port 3333"
 scripts/flash.sh forwarder # Terminal 2
+```
+
+# Terminal 1
+
+```
+(.venv) george@192 machine-learning-model-ota-on-arduino-uno-q % scripts/bridge.sh   
+Starting bridge - keep this terminal open. Ctrl-C to stop.
+3333
+Open On-Chip Debugger 0.12.0+dev-ge6a2c12f4 (2025-05-22-15:51)
+Licensed under GNU GPL v2
+For bug reports, read
+        http://openocd.org/doc/doxygen/bugs.html
+debug_level: 2
+clock_config
+Info : Linux GPIOD JTAG/SWD bitbang driver (libgpiod v2)
+Info : Note: The adapter "linuxgpiod" doesn't support configurable speed
+Info : SWD DPIDR 0x0be12477
+Info : [stm32u5.ap0] Examination succeed
+Info : [stm32u5.cpu] Cortex-M33 r0p4 processor detected
+Info : [stm32u5.cpu] target has 8 breakpoints, 4 watchpoints
+Info : [stm32u5.cpu] Examination succeed
+Info : [stm32u5.ap0] gdb port disabled
+Info : [stm32u5.cpu] starting gdb server on 3333
+Info : Listening on port 3333 for gdb connections
+Info : Listening on port 6666 for tcl connections
+Info : Listening on port 4444 for telnet connections
 ```
 
 `scripts/flash.sh` runs the gdb-load method described under "Flashing". Before the first flash after any

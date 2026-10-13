@@ -198,3 +198,22 @@ firmware), add **Spectral Analysis** + **Classification**. Generate features, tr
 [Building Impulse](./assets/impulse-building.png)
 
 [Training Result](./assets/impulse-building.png)
+
+```bash
+(.venv) george@192 machine-learning-model-ota-on-arduino-uno-q % unzip -o ~/Downloads/arduino-uno-q-continous-model-deployment-golioth-zephyr-module-v3.zip  -d firmware/inference/model/
+Archive:  /Users/george/Downloads/arduino-uno-q-continous-model-deployment-golioth-zephyr-module-v3.zip
+   creating: firmware/inference/model//model-parameters
+  inflating: firmware/inference/model//model-parameters/model_metadata.h  
+  inflating: firmware/inference/model//model-parameters/model_variables.h  
+   creating: firmware/inference/model//tflite-model
+  inflating: firmware/inference/model//tflite-model/trained_model_ops_define.h  
+  inflating: firmware/inference/model//tflite-model/tflite_learn_1105163_3_compiled.h  
+  inflating: firmware/inference/model//tflite-model/tflite_learn_1105163_3_compiled.cpp  
+  inflating: firmware/inference/model//tflite-model/check_version.cpp  
+   creating: firmware/inference/model//zephyr
+  inflating: firmware/inference/model//zephyr/module.yml  
+  inflating: firmware/inference/model//CMakeLists.txt  
+  inflating: firmware/inference/model//west.yml  
+  inflating: firmware/inference/model//README.md  
+(.venv) george@192 machine-learning-model-ota-on-arduino-uno-q % 
+```

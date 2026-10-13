@@ -188,3 +188,13 @@ python3 scripts/ei_capture.py --label idle --seconds 10         # repeat per lab
 
 It reads `/dev/ttyHS1` and posts to the Edge Impulse ingestion API. Record at least 2 minutes each of
 `idle`, `wave`, `updown`, then in Studio do **Perform train/test split**.
+
+### 4. Train
+
+Studio → **Create impulse**: window **2000 ms**, stride 200 ms, **frequency 100 Hz** (must match the
+firmware), add **Spectral Analysis** + **Classification**. Generate features, train (~60 cycles), check
+**Model testing** accuracy.
+
+[Building Impulse](./assets/impulse-building.png)
+
+[Training Result](./assets/impulse-building.png)

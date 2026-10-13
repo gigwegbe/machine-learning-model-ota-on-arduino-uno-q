@@ -77,16 +77,7 @@ pip install -r zephyr/scripts/requirements.txt
 west sdk install --toolchains arm-zephyr-eabi
 ```
 
-or
-
-```bash
-cd ~/zephyrproject
-git clone https://github.com/gigwegbe/machine-learning-model-ota-on-arduino-uno-q.git
-cd machine-learning-model-ota-on-arduino-uno-q/firmware/data-forwarder
-west build --pristine -b arduino_uno_q -- -DSHIELD=x_nucleo_iks4a1
-```
-
-You now have `~/unoq-ml/unoq-edge-impulse-gestures/` (this repo) next to `zephyr/` and `modules/`.
+You now have `~/unoq-ml/machine-learning-model-ota-on-arduino-uno-q/` (this repo) next to `zephyr/` and `modules/`.
 All commands below run from inside this repo with the venv active:
 
 ```bash
@@ -103,10 +94,26 @@ scripts/bridge.sh          # Terminal 1 - leave running, wait for "Listening on 
 scripts/flash.sh forwarder # Terminal 2
 ```
 
-# Terminal 1
+`scripts/flash.sh` runs the gdb-load method described under "Flashing". Before the first flash after any
+reboot, run `sudo chmod 666 /dev/gpiochip1` on the board (`adb shell`), or the bridge fails with a GPIO
+permission error.
 
+### Build Terminal
+
+```bash
+[190/190] Linking C executable zephyr/zephyr.elf
+Memory region         Used Size  Region Size  %age Used
+           FLASH:       45184 B         2 MB      2.15%
+             RAM:        7328 B       768 KB      0.93%
+           SRAM0:           0 B       768 KB      0.00%
+        IDT_LIST:           0 B        32 KB      0.00%
+Generating files from /Users/george/zephyrproject/machine-learning-model-ota-on-arduino-uno-q/firmware/data-forwarder/build/zephyr/zephyr.elf for board: arduino_uno_q/stm32u585xx
 ```
-(.venv) george@192 machine-learning-model-ota-on-arduino-uno-q % scripts/bridge.sh   
+
+### Bridge Terminal
+
+```bash
+(.venv) george@192 machine-learning-model-ota-on-arduino-uno-q % scripts/bridge.sh         
 Starting bridge - keep this terminal open. Ctrl-C to stop.
 3333
 Open On-Chip Debugger 0.12.0+dev-ge6a2c12f4 (2025-05-22-15:51)
@@ -127,11 +134,35 @@ Info : [stm32u5.cpu] starting gdb server on 3333
 Info : Listening on port 3333 for gdb connections
 Info : Listening on port 6666 for tcl connections
 Info : Listening on port 4444 for telnet connections
+
 ```
 
-`scripts/flash.sh` runs the gdb-load method described under "Flashing". Before the first flash after any
-reboot, run `sudo chmod 666 /dev/gpiochip1` on the board (`adb shell`), or the bridge fails with a GPIO
-permission error.
+### Flashing Terminal
+
+```bash
+Loading section datas, size 0x1e4 lma 0x800ae38
+Loading section device_states, size 0x34 lma 0x800b01c
+Loading section .last_section, size 0x4 lma 0x800b050
+--Type <RET> for more, q to quit, c to continue without paging--
+Start address 0x08002224, load size 45136
+Transfer rate: 7 KB/sec, 3224 bytes/write.
+Detaching from program: /Users/george/zephyrproject/machine-learning-model-ota-on-arduino-uno-q/firmware/data-forwarder/build/zephyr/zephyr.elf, Remote target
+[Inferior 1 (Remote target) detached]
+```
+
+### Board Terminal
+
+```bash
+0.182,0.479,9.677
+0.191,0.488,9.686
+0.182,0.469,9.705
+0.182,0.431,9.686
+0.172,0.431,9.744
+0.144,0.392,9.705
+0.144,0.325,9.686
+0.201,0.373,9.610
+arduino@George-Uno:~$ 
+```
 
 Sanity check the numbers are flowing. **On the board** (`adb shell`):
 

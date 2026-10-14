@@ -1,0 +1,16 @@
+[Unit]
+Description=Golioth OTA gateway for Arduino UNO Q
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=arduino
+EnvironmentFile=/home/arduino/golioth.env
+ExecStartPre=+-/bin/chmod 666 /dev/gpiochip1
+ExecStart=/usr/bin/python3 /home/arduino/scripts/ota_gateway.py --watch
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

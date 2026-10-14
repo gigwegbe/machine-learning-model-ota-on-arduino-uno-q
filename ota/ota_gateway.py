@@ -57,7 +57,7 @@ WORK_DIR   = Path(os.environ.get("GATEWAY_WORK_DIR", "/home/arduino/ota_artifact
 # How to flash. {path} is replaced with the downloaded artifact file.
 # Reuses your repo's proven wrapper. Whatever this command consumes (ELF vs
 # raw .bin) is the artifact type you upload with publish_update.py.
-FLASH_CMD  = os.environ.get("GATEWAY_FLASH_CMD", "./scripts/flash.sh {path}")
+FLASH_CMD  = os.environ.get("GATEWAY_FLASH_CMD", "./scripts/flash_board.sh {path}")
 
 # Auth. Default is HTTP Basic with psk-id:psk. Override with a full header
 # value if Golioth wants something else, e.g. "Bearer <token>".
@@ -133,8 +133,8 @@ def download(comp: dict) -> Path:
             raise RuntimeError(f"sha256 mismatch: expected {expected}, got {got}")
         log("sha256 verified")
 
-    # Saved as .elf: the artifact IS the Zephyr ELF (flash.sh / OpenOCD need
-    # the section load addresses). The name is cosmetic (flash.sh checks the
+    # Saved as .elf: the artifact IS the Zephyr ELF (flash_board.sh / OpenOCD need
+    # the section load addresses). The name is cosmetic (flash_board.sh checks the
     # ELF magic regardless), but .bin here was misleading.
     out = WORK_DIR / f"{PACKAGE}-{version}.elf"
     out.write_bytes(data)

@@ -8,7 +8,6 @@ The board updates its own microcontroller: the Linux side pulls a new firmware i
 Wi-Fi and flashes the STM32 itself.
 
 ![Live inference: the model classifying a gesture in real time](./assets/live-demo.gif)
-<!-- TODO: replace with a short looping GIF of your hand gesture next to the serial output flipping idle -> wave -->
 
 ---
 
